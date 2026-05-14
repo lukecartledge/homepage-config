@@ -1,0 +1,45 @@
+---
+# Homepage settings.yaml
+# Docs: https://gethomepage.dev/configs/settings/
+
+title: Home
+description: Luke's homelab dashboard
+
+theme: dark
+color: slate
+headerStyle: clean
+iconStyle: theme
+statusStyle: dot
+fullWidth: true
+
+language: en
+
+header: true
+footer: true
+
+layout:
+  Media:
+    style: row
+    columns: 2
+    icon: mdi-play-circle-outline
+
+  Documents:
+    style: row
+    columns: 2
+    icon: mdi-file-document-outline
+
+  Automation:
+    style: row
+    columns: 3
+    icon: mdi-robot-outline
+
+  Networking:
+    style: row
+    columns: 2
+    icon: mdi-network-outline
+
+  Infrastructure:
+    style: row
+    columns: 2
+    icon: mdi-server-outline
+    initiallyCollapsed: true

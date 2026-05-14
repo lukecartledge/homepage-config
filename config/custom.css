@@ -1,0 +1,127 @@
+/* Catppuccin Mocha for Homepage (gethomepage.dev)
+   Source: https://github.com/catppuccin/userstyles/blob/main/styles/homepage/catppuccin.user.less
+   Palette: https://github.com/catppuccin/catppuccin#-palette */
+
+:root {
+  --ctp-rosewater: #f5e0dc;
+  --ctp-flamingo:  #f2cdcd;
+  --ctp-pink:      #f5c2e7;
+  --ctp-mauve:     #cba6f7;
+  --ctp-red:       #f38ba8;
+  --ctp-maroon:    #eba0ac;
+  --ctp-peach:     #fab387;
+  --ctp-yellow:    #f9e2af;
+  --ctp-green:     #a6e3a1;
+  --ctp-teal:      #94e2d5;
+  --ctp-sky:       #89dceb;
+  --ctp-sapphire:  #74c7ec;
+  --ctp-blue:      #89b4fa;
+  --ctp-lavender:  #b4befe;
+  --ctp-text:      #cdd6f4;
+  --ctp-subtext1:  #bac2de;
+  --ctp-subtext0:  #a6adc8;
+  --ctp-overlay2:  #9399b2;
+  --ctp-overlay1:  #7f849c;
+  --ctp-overlay0:  #6c7086;
+  --ctp-surface2:  #585b70;
+  --ctp-surface1:  #45475a;
+  --ctp-surface0:  #313244;
+  --ctp-base:      #1e1e2e;
+  --ctp-mantle:    #181825;
+  --ctp-crust:     #11111b;
+  --ctp-accent:    var(--ctp-mauve);
+}
+
+:is(.dark .dark\:bg-theme-800) {
+  --tw-bg-opacity: 1;
+  background-color: var(--ctp-base) !important;
+}
+
+.dark {
+  --bg-color: var(--ctp-base);
+  --scrollbar-thumb: var(--ctp-accent);
+  --scrollbar-track: var(--ctp-mantle);
+}
+
+:is(.dark .dark\:bg-theme-200\/20) {
+  background-color: var(--ctp-overlay0) !important;
+}
+:is(.dark .dark\:bg-theme-200\/50) {
+  background-color: var(--ctp-text) !important;
+}
+
+.border-theme-300 {
+  --tw-border-opacity: 1;
+  border-color: var(--ctp-surface0) !important;
+}
+:is(.dark .dark\:bg-white\/10) {
+  background-color: var(--ctp-base) !important;
+}
+:is(.dark .dark\:focus\:ring-white\/50:focus) {
+  --tw-ring-color: var(--ctp-text) !important;
+}
+:is(.dark .dark\:text-white) {
+  --tw-text-opacity: 1;
+  color: var(--ctp-accent) !important;
+}
+.text-white {
+  color: var(--ctp-subtext1) !important;
+}
+
+:is(.dark .dark\:bg-white\/5) {
+  background-color: var(--ctp-mantle) !important;
+}
+:is(.dark .dark\:shadow-theme-900\/20) {
+  --tw-shadow-color: var(--ctp-mantle);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+:is(.dark .dark\:hover\:bg-white\/10:hover) {
+  background-color: var(--ctp-surface1) !important;
+}
+
+:is(.dark .dark\:bg-theme-900\/50) {
+  background-color: var(--ctp-crust) !important;
+}
+:is(.dark .dark\:bg-theme-900\/20) {
+  background-color: var(--ctp-surface0) !important;
+}
+
+:is(.dark .dark\:bg-theme-900\/40) {
+  background-color: var(--ctp-accent) !important;
+}
+
+:is(.dark .dark\:text-theme-300) {
+  color: var(--ctp-text) !important;
+}
+:is(.dark .dark\:text-theme-400) {
+  color: var(--ctp-text) !important;
+}
+:is(.dark .dark\:text-theme-200) {
+  color: var(--ctp-text) !important;
+}
+
+:is(.dark .dark\:border-theme-200\/50) {
+  --tw-border-opacity: 1;
+  border-color: var(--ctp-surface2) !important;
+}
+
+:is(.dark .dark\:hover\:text-theme-300:hover) {
+  color: #b389f5 !important;
+}
+
+.text-emerald-500\/80 {
+  color: #b9f0b5 !important;
+}
+.text-orange-400\/50 {
+  color: #fcedc0 !important;
+}
+.text-rose-500\/80 {
+  color: #e8607a !important;
+}
+
+.text-theme-900 {
+  color: var(--ctp-base) !important;
+}
+.bg-rose-900\/80 {
+  background-color: var(--ctp-red) !important;
+}

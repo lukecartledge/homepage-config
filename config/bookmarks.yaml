@@ -1,0 +1,15 @@
+---
+# Homepage bookmarks.yaml
+# Docs: https://gethomepage.dev/configs/bookmarks/
+# TODO: Replace with personal bookmarks
+
+- Admin:
+    - TrueNAS:
+        - abbr: TN
+          href: https://192.168.1.20
+    - Tailscale:
+        - abbr: TS
+          href: https://login.tailscale.com/admin
+    - Router:
+        - abbr: RT
+          href: http://192.168.1.1
