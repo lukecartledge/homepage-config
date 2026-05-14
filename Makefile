@@ -3,15 +3,16 @@ DEST     ?= /mnt/.ix-apps/app_mounts/homepage/config
 CONFIG   ?= ./config
 RENDERED ?= /tmp/homepage-rendered
 
-.PHONY: deploy deploy-rendered pull diff clean-rendered
+.PHONY: deploy deploy-rendered pull diff fix-perms clean-rendered
 
 deploy:
-	rsync -avz --delete \
+	rsync -avz \
 	  --rsync-path="sudo rsync" \
 	  --exclude='.git' \
 	  --exclude='.env' \
 	  --exclude='logs/' \
 	  $(CONFIG)/ $(HOST):$(DEST)/
+	@$(MAKE) fix-perms
 
 deploy-rendered: clean-rendered
 	@mkdir -p $(RENDERED)
@@ -22,10 +23,11 @@ deploy-rendered: clean-rendered
 	    find $(RENDERED) -name '*.yaml' -exec sed -i '' "s|{{$$key}}|$$value|g" {} +; \
 	  done < .env; \
 	fi
-	rsync -avz --delete \
+	rsync -avz \
 	  --rsync-path="sudo rsync" \
 	  --exclude='logs/' \
 	  $(RENDERED)/ $(HOST):$(DEST)/
+	@$(MAKE) fix-perms
 	@$(MAKE) clean-rendered
 
 pull:
@@ -34,12 +36,15 @@ pull:
 	  $(HOST):$(DEST)/ $(CONFIG)/
 
 diff:
-	rsync -avzn --delete \
+	rsync -avzn \
 	  --rsync-path="sudo rsync" \
 	  --exclude='.git' \
 	  --exclude='.env' \
 	  --exclude='logs/' \
 	  $(CONFIG)/ $(HOST):$(DEST)/
+
+fix-perms:
+	@ssh $(HOST) 'sudo -n chown -R 1000:1000 $(DEST)'
 
 clean-rendered:
 	@rm -rf $(RENDERED)
