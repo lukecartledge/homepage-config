@@ -125,3 +125,17 @@
 .bg-rose-900\/80 {
   background-color: var(--ctp-red) !important;
 }
+
+.service-card {
+  padding: 0.75rem !important;
+}
+
+.service-block {
+  padding: 0.75rem 0.5rem !important;
+  min-height: 4rem;
+}
+
+.service-name {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}

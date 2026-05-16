@@ -10,7 +10,8 @@ color: slate
 headerStyle: clean
 iconStyle: theme
 statusStyle: dot
-fullWidth: true
+fullWidth: false
+useEqualHeights: true
 
 language: en
 
@@ -25,7 +26,7 @@ layout:
 
   Documents:
     style: row
-    columns: 2
+    columns: 3
     icon: mdi-file-document-outline
 
   Automation:
