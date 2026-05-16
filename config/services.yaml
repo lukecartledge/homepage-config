@@ -44,6 +44,17 @@
         icon: mdi-robot-outline
         ping: 192.168.1.20
 
+    - Mealie:
+        href: http://the-library.tail227692.ts.net:30111
+        description: Recipe & meal planning
+        icon: mealie.png
+        ping: 192.168.1.20
+        widget:
+          type: mealie
+          url: http://192.168.1.20:30111
+          key: "{{HOMEPAGE_VAR_MEALIE_KEY}}"
+          version: 2
+
 - Automation:
     - Home Assistant:
         href: http://the-library.tail227692.ts.net:30103
@@ -91,6 +102,12 @@
         href: http://the-library.tail227692.ts.net:5001
         description: Docker compose manager
         icon: dockge.png
+        ping: 192.168.1.20
+
+    - File Browser:
+        href: http://the-library.tail227692.ts.net:30051
+        description: Web file manager
+        icon: filebrowser.png
         ping: 192.168.1.20
 
     - TrueNAS:
