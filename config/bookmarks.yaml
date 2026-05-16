@@ -6,7 +6,7 @@
 - Admin:
     - TrueNAS:
         - abbr: TN
-          href: https://192.168.1.20
+          href: http://the-library.tail227692.ts.net
     - Tailscale:
         - abbr: TS
           href: https://login.tailscale.com/admin
