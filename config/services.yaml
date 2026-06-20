@@ -44,8 +44,9 @@
         icon: mdi-robot-outline
         ping: 192.168.1.20
 
+- Library:
     - Mealie:
-        href: http://the-library.tail227692.ts.net:30111
+        href: https://recipes.lukecartledge.com
         description: Recipe & meal planning
         icon: mealie.png
         ping: 192.168.1.20
@@ -54,6 +55,12 @@
           url: http://192.168.1.20:30111
           key: "{{HOMEPAGE_VAR_MEALIE_KEY}}"
           version: 2
+
+    - Karakeep:
+        href: https://bookmarks.lukecartledge.com
+        description: Bookmark manager
+        icon: karakeep.png
+        ping: 192.168.1.20
 
 - Automation:
     - Home Assistant:

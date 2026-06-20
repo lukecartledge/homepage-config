@@ -26,8 +26,13 @@ layout:
 
   Documents:
     style: row
-    columns: 3
+    columns: 2
     icon: mdi-file-document-outline
+
+  Library:
+    style: row
+    columns: 2
+    icon: mdi-bookshelf
 
   Automation:
     style: row
