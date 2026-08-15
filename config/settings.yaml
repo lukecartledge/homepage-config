@@ -41,4 +41,6 @@ layout:
     style: row
     columns: 3
     icon: mdi-server-outline
-    initiallyCollapsed: true
+    # Was initiallyCollapsed. Un-collapsed 2026-08-15: this group now holds
+    # Grafana, which is worth seeing at a glance rather than hiding behind a
+    # click alongside the pure-admin tiles.
