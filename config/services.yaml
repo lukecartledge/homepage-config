@@ -117,6 +117,17 @@
         icon: filebrowser.png
         ping: 192.168.1.20
 
+    - Grafana:
+        href: http://the-library.tail227692.ts.net:30300
+        description: Sensor dashboard — temps & fans
+        icon: grafana.png
+        ping: 192.168.1.20
+        widget:
+          type: grafana
+          url: http://192.168.1.20:30300
+          username: admin
+          password: "{{HOMEPAGE_VAR_GRAFANA_PASS}}"
+
     - TrueNAS:
         href: http://the-library.tail227692.ts.net
         description: NAS management
