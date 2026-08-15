@@ -119,15 +119,46 @@
         description: Sensor dashboard — temps & fans
         icon: grafana.png
         ping: 192.168.1.20
+        # Deliberately NOT the built-in grafana widget: that one reports on
+        # Grafana itself (dashboard count, datasource count, alert count),
+        # which says nothing about the homelab. This queries Prometheus
+        # directly for the numbers actually worth glancing at.
+        #
+        # One instant query returns four series; label_replace gives each a
+        # distinct label so PromQL's `or` keeps all four rather than deduping
+        # identical (empty) label sets. Mappings then index by position.
+        # Order follows the `or` operands left-to-right — verified stable, but
+        # if the tiles ever look transposed, that assumption is what broke.
+        #
+        # Decoded query:
+        #   label_replace(max(node_hwmon_temp_celsius{chip=~".*coretemp.*"}),"k","1cpu","","")
+        #   or label_replace(max(smartctl_device_temperature{temperature_type="current",device!~"nvme.*"}),"k","2drive","","")
+        #   or label_replace(min(node_hwmon_fan_rpm > 0),"k","3fan","","")
+        #   or label_replace(max(node_hwmon_temp_celsius{chip=~".*nvme.*"}),"k","4nvme","","")
+        #
+        # The fan query excludes 0 RPM on purpose: fan6/fan7 are unpopulated
+        # headers that read a constant 0 and would otherwise always win min().
         widget:
-          type: grafana
-          url: http://192.168.1.20:30300
-          username: admin
-          password: "{{HOMEPAGE_VAR_GRAFANA_PASS}}"
-          # version 2 uses Grafana's unified-alerting endpoint. Without it the
-          # widget first calls the legacy /api/alerts, removed in Grafana 9+,
-          # and eats a guaranteed 404 on every refresh before falling back.
-          version: 2
+          type: customapi
+          url: "http://192.168.1.20:30090/api/v1/query?query=label_replace%28max%28node_hwmon_temp_celsius%7Bchip%3D~%22.%2Acoretemp.%2A%22%7D%29%2C%22k%22%2C%221cpu%22%2C%22%22%2C%22%22%29%20or%20label_replace%28max%28smartctl_device_temperature%7Btemperature_type%3D%22current%22%2Cdevice%21~%22nvme.%2A%22%7D%29%2C%22k%22%2C%222drive%22%2C%22%22%2C%22%22%29%20or%20label_replace%28min%28node_hwmon_fan_rpm%20%3E%200%29%2C%22k%22%2C%223fan%22%2C%22%22%2C%22%22%29%20or%20label_replace%28max%28node_hwmon_temp_celsius%7Bchip%3D~%22.%2Anvme.%2A%22%7D%29%2C%22k%22%2C%224nvme%22%2C%22%22%2C%22%22%29"
+          refreshInterval: 30000
+          mappings:
+            - field: data.result.0.value.1
+              label: CPU
+              format: number
+              suffix: "°C"
+            - field: data.result.1.value.1
+              label: Drives
+              format: number
+              suffix: "°C"
+            - field: data.result.2.value.1
+              label: Fan
+              format: number
+              suffix: RPM
+            - field: data.result.3.value.1
+              label: NVMe
+              format: number
+              suffix: "°C"
 
     - Dockge:
         href: http://the-library.tail227692.ts.net:31014
