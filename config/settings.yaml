@@ -18,6 +18,9 @@ language: en
 header: true
 footer: true
 
+# Consolidated to four groups 2026-08-15. Library folded into Documents;
+# Automation retired (Ollama uninstalled, Home Assistant and n8n tiles dropped).
+# Group names here must match the group keys in services.yaml exactly.
 layout:
   Media:
     style: row
@@ -26,26 +29,16 @@ layout:
 
   Documents:
     style: row
-    columns: 2
+    columns: 3
     icon: mdi-file-document-outline
 
-  Library:
-    style: row
-    columns: 2
-    icon: mdi-bookshelf
-
-  Automation:
-    style: row
-    columns: 3
-    icon: mdi-robot-outline
-
-  Networking:
+  Network:
     style: row
     columns: 2
     icon: mdi-network-outline
 
   Infrastructure:
     style: row
-    columns: 2
+    columns: 3
     icon: mdi-server-outline
     initiallyCollapsed: true

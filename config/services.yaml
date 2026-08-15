@@ -1,7 +1,14 @@
 ---
 # Homepage services.yaml
 # Docs: https://gethomepage.dev/configs/services/
-# Secrets use {{HOMEPAGE_VAR_*}} — real values in TrueNAS app env vars
+# Secrets use {{HOMEPAGE_VAR_*}} — real values live in .env (gitignored) and
+# are substituted at deploy time by `make deploy-rendered`.
+#
+# Consolidated to four groups on 2026-08-15. Removed: Ollama (app no longer
+# installed), Home Assistant (token expired, little automation in use),
+# n8n and Paperless-AI (services still running, just not worth a tile).
+# Note: n8n still powers the iPhone → Mealie recipe pipeline — the tile went,
+# the service did not.
 
 - Media:
     - Jellyfin:
@@ -38,13 +45,6 @@
           url: http://192.168.1.20:30070
           key: "{{HOMEPAGE_VAR_PAPERLESS_KEY}}"
 
-    - Paperless-AI:
-        href: http://the-library.tail227692.ts.net:30226
-        description: AI document processing
-        icon: mdi-robot-outline
-        ping: 192.168.1.20
-
-- Library:
     - Mealie:
         href: https://recipes.lukecartledge.com
         description: Recipe & meal planning
@@ -61,38 +61,30 @@
         description: Bookmark manager
         icon: karakeep.png
         ping: 192.168.1.20
+        # A karakeep widget DOES exist in Homepage 1.13.2 (endpoint
+        # /api/v1/users/me/stats) but it is credentialed. To enable:
+        #   1. Karakeep → Settings → API Keys → create a key
+        #   2. Add HOMEPAGE_VAR_KARAKEEP_KEY=<key> to .env
+        #   3. Uncomment the block below and `make deploy-rendered`
+        # widget:
+        #   type: karakeep
+        #   url: http://192.168.1.20:30147
+        #   key: "{{HOMEPAGE_VAR_KARAKEEP_KEY}}"
 
-- Automation:
-    - Home Assistant:
-        href: http://the-library.tail227692.ts.net:30103
-        description: Home automation
-        icon: home-assistant.png
-        ping: 192.168.1.20
-        widget:
-          type: homeassistant
-          url: http://192.168.1.20:30103
-          key: "{{HOMEPAGE_VAR_HASS_TOKEN}}"
-
-    - n8n:
-        href: http://the-library.tail227692.ts.net:30109
-        description: Workflow automation
-        icon: n8n.png
-        ping: 192.168.1.20
-
-    - Ollama:
-        href: http://the-library.tail227692.ts.net:30068
-        description: Local LLM runner
-        icon: ollama.png
-        ping: 192.168.1.20
-        # No widget — unsupported in Homepage 1.3.12
-
-- Networking:
+- Network:
     - Pi-hole:
         href: http://the-library.tail227692.ts.net:20720/admin
         description: DNS ad blocking
         icon: pi-hole.png
         ping: 192.168.1.20
-        # Widget blocked: Homepage 1.3.12 cache bug — uncomment after upgrade to 1.4.x+
+        # Widget STILL disabled — retested 2026-08-15 on Homepage 1.13.2.
+        # The version reasoning in the old note was stale (we are well past
+        # 1.4.x), but the cache bug itself is real and still present: Homepage's
+        # pihole proxy handler throws "Cache timeout must be a positive number"
+        # on every call, surfacing as {"error":"Unexpected error"}.
+        # Pi-hole itself is fine — v6.4.3, /api/stats/summary returns live data
+        # unauthenticated. This is a Homepage-side bug, so retest after a
+        # Homepage upgrade (v2.0.0 is out) and not before.
         # widget:
         #   type: pihole
         #   url: http://192.168.1.20:20720
@@ -105,17 +97,22 @@
         icon: tailscale.png
 
 - Infrastructure:
-    - Dockge:
-        href: http://the-library.tail227692.ts.net:5001
-        description: Docker compose manager
-        icon: dockge.png
+    - TrueNAS:
+        href: http://the-library.tail227692.ts.net
+        description: NAS management
+        icon: truenas.png
         ping: 192.168.1.20
-
-    - File Browser:
-        href: http://the-library.tail227692.ts.net:30051
-        description: Web file manager
-        icon: filebrowser.png
-        ping: 192.168.1.20
+        # Widget still disabled, but NOT for the reason previously recorded.
+        # The old note blamed a Homepage 1.3.12 cache bug; the real blocker is
+        # server-side. On TrueNAS 25.10 the REST API returns HTTP 500 on every
+        # v2.0 endpoint with a valid key (401 without one, so auth is fine).
+        # iX are migrating to the JSON-RPC websocket API. Re-test after a
+        # TrueNAS upgrade, not after a Homepage upgrade.
+        # widget:
+        #   type: truenas
+        #   url: https://192.168.1.20
+        #   key: "{{HOMEPAGE_VAR_TRUENAS_KEY}}"
+        #   enablePools: true
 
     - Grafana:
         href: http://the-library.tail227692.ts.net:30300
@@ -127,14 +124,19 @@
           url: http://192.168.1.20:30300
           username: admin
           password: "{{HOMEPAGE_VAR_GRAFANA_PASS}}"
+          # version 2 uses Grafana's unified-alerting endpoint. Without it the
+          # widget first calls the legacy /api/alerts, removed in Grafana 9+,
+          # and eats a guaranteed 404 on every refresh before falling back.
+          version: 2
 
-    - TrueNAS:
-        href: http://the-library.tail227692.ts.net
-        description: NAS management
-        icon: truenas.png
-        # Widget blocked: Homepage 1.3.12 cache bug — uncomment after upgrade to 1.4.x+
-        # widget:
-        #   type: truenas
-        #   url: http://192.168.1.20
-        #   key: "{{HOMEPAGE_VAR_TRUENAS_KEY}}"
-        #   enablePools: true
+    - Dockge:
+        href: http://the-library.tail227692.ts.net:31014
+        description: Docker compose manager
+        icon: dockge.png
+        ping: 192.168.1.20
+
+    - File Browser:
+        href: http://the-library.tail227692.ts.net:30051
+        description: Web file manager
+        icon: filebrowser.png
+        ping: 192.168.1.20
