@@ -1,4 +1,4 @@
-HOST     ?= truenas.local
+HOST     ?= homelab
 DEST     ?= /mnt/.ix-apps/app_mounts/homepage/config
 CONFIG   ?= ./config
 RENDERED ?= /tmp/homepage-rendered
