@@ -105,12 +105,12 @@
         description: NAS management
         icon: truenas.png
         ping: 192.168.1.20
-        # Widget still disabled, but NOT for the reason previously recorded.
-        # The old note blamed a Homepage 1.3.12 cache bug; the real blocker is
-        # server-side. On TrueNAS 25.10 the REST API returns HTTP 500 on every
-        # v2.0 endpoint with a valid key (401 without one, so auth is fine).
-        # iX are migrating to the JSON-RPC websocket API. Re-test after a
-        # TrueNAS upgrade, not after a Homepage upgrade.
+        # Widget still disabled — blocker is server-side, not Homepage.
+        # Re-verified 2026-08-19 on Homepage v2.0.0 / TrueNAS 25.10.3.1: the
+        # REST API still returns HTTP 500 on every /api/v2.0/* endpoint with a
+        # valid key (401 without one, so auth is fine). Unchanged by the
+        # Homepage v2 upgrade, as expected. iX are migrating to the JSON-RPC
+        # websocket API. Re-test after a TrueNAS upgrade, not a Homepage one.
         # widget:
         #   type: truenas
         #   url: https://192.168.1.20
