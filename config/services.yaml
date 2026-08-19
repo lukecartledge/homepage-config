@@ -97,20 +97,36 @@
         href: https://login.tailscale.com
         description: VPN mesh network
         icon: tailscale.png
-        # Enabled 2026-08-19. Unlike every other widget here there is no url:
-        # the endpoint is absolute (api.tailscale.com), so this needs only the
-        # device id and a key. deviceid is the stable node ID of this box, read
-        # from `tailscale status --json` inside ix-tailscale-tailscale-1.
+        # Widget reverted 2026-08-19. The credentials are correct and the API
+        # works — this is blocked by container DNS, not by Tailscale.
         #
-        # EXPIRES 2026-11-17. Tailscale API access tokens are capped at
-        # 90 days and cannot be extended, so this tile will start returning 401
-        # then — the same way the Home Assistant tile died. Regenerate at
-        # login.tailscale.com -> Settings -> Keys (must be a tskey-api-* access
-        # token, not an auth key and not the node key).
-        widget:
-          type: tailscale
-          deviceid: n85VohjPqE11CNTRL
-          key: "{{HOMEPAGE_VAR_TAILSCALE_KEY}}"
+        # Homepage cannot resolve api.tailscale.com from inside its container:
+        #   AAAA api.tailscale.com          17 answers, 540 bytes -> SERVFAIL
+        #   AAAA controlplane.tailscale.com 16 answers, 503 bytes -> NOERROR
+        # api.tailscale.com is a CNAME onto controlplane, and that extra record
+        # pushes the reply past the 512-byte classic UDP limit. Docker's
+        # embedded resolver (127.0.0.11) will not fall back to TCP, so it
+        # answers SERVFAIL. The image is Alpine, and musl's getaddrinfo fails
+        # the WHOLE lookup when the AAAA query errors even though the A query
+        # returned 16 records — hence EAI_AGAIN and a 500 on the tile.
+        #
+        # Not fixable from this repo. 192.168.1.1, Pi-hole and 1.1.1.1 all
+        # answer NOERROR, and querying any of them directly from inside the
+        # container works; only the embedded resolver breaks. The container is
+        # on the user-defined network ix-homepage_default, where Docker always
+        # forces 127.0.0.11, so setting custom DNS on the app only changes the
+        # upstream the broken resolver forwards to.
+        #
+        # To enable: put the Homepage app on host networking so it inherits the
+        # host's resolv.conf, then uncomment. Expect it to flap either way —
+        # the reply sits 28 bytes over the limit and Tailscale's record count
+        # varies, which is why the tile rendered once before failing.
+        #
+        # HOMEPAGE_VAR_TAILSCALE_KEY is still in .env and expires 2026-11-17.
+        # widget:
+        #   type: tailscale
+        #   deviceid: n85VohjPqE11CNTRL
+        #   key: "{{HOMEPAGE_VAR_TAILSCALE_KEY}}"
 
 - Infrastructure:
     - TrueNAS:
