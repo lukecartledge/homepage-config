@@ -145,3 +145,55 @@
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
 }
+
+/* ---------------------------------------------------------------------------
+   Polish pass — 2026-08-19 (Homepage v2.0.0)
+
+   Homepage collapses several distinct roles onto the same Catppuccin token:
+   group headings, service names and service descriptions all resolve to
+   --ctp-text, leaving font size as the only hierarchy signal. These rules
+   re-separate them and give the accent an actual job.
+   --------------------------------------------------------------------------- */
+
+/* Structure vs content. The four group headings carry the accent so the eye
+   can find the sections without reading them. Mauve is the Catppuccin accent
+   and was previously unused anywhere on the page. */
+.dark .service-group-name,
+.dark .bookmark-group-name {
+  color: var(--ctp-mauve) !important;
+  font-weight: 600 !important;
+}
+
+.dark .service-group-name svg,
+.dark .bookmark-group-name svg {
+  color: var(--ctp-mauve) !important;
+  opacity: 0.7;
+}
+
+/* A service name and its description resolved to the same colour, so the
+   description competed with the thing it describes. Demote it. */
+.service-description {
+  color: var(--ctp-subtext0) !important;
+}
+
+/* Cards sit at --ctp-mantle on a --ctp-base page: a 6-value difference that
+   reads as a soft smudge rather than an edge. A hairline gives them a real
+   boundary without adding weight. */
+.service-card {
+  border: 1px solid var(--ctp-surface0) !important;
+}
+
+/* More space above a heading than below it, so groups read as groups. */
+.services-group,
+.bookmark-group {
+  margin-top: 0.9rem;
+}
+
+/* Bookmarks render as a vertical list, so a single group stretches full width
+   and strands each URL at the far right of an otherwise empty row. Lay them
+   out as a grid that wraps on narrow viewports instead. */
+.bookmark-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.15rem 0.5rem;
+}

@@ -39,8 +39,17 @@ layout:
 
   Infrastructure:
     style: row
-    columns: 3
+    columns: 2
     icon: mdi-server-outline
+    # 3 columns left File Browser orphaned alone on a second row. This group
+    # holds four tiles, so 2 columns gives a balanced 2x2 with no gap.
     # Was initiallyCollapsed. Un-collapsed 2026-08-15: this group now holds
     # Grafana, which is worth seeing at a glance rather than hiding behind a
     # click alongside the pure-admin tiles.
+
+  # Bookmark group. A single group with flex-1 stretches to the full page
+  # width and stacks its four entries vertically, stranding each URL far to
+  # the right. Four columns puts them on one row.
+  Admin:
+    style: row
+    columns: 4
