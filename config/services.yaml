@@ -61,15 +61,14 @@
         description: Bookmark manager
         icon: karakeep.png
         ping: 192.168.1.20
-        # A karakeep widget DOES exist in Homepage 1.13.2 (endpoint
-        # /api/v1/users/me/stats) but it is credentialed. To enable:
-        #   1. Karakeep → Settings → API Keys → create a key
-        #   2. Add HOMEPAGE_VAR_KARAKEEP_KEY=<key> to .env
-        #   3. Uncomment the block below and `make deploy-rendered`
-        # widget:
-        #   type: karakeep
-        #   url: http://192.168.1.20:30147
-        #   key: "{{HOMEPAGE_VAR_KARAKEEP_KEY}}"
+        # Enabled 2026-08-19 on Homepage v2.0.0. The karakeep widget is
+        # credentialed — key is an ak2_* token from Karakeep → Settings →
+        # API Keys, held in .env as HOMEPAGE_VAR_KARAKEEP_KEY and substituted
+        # locally by `make deploy-rendered`.
+        widget:
+          type: karakeep
+          url: http://192.168.1.20:30147
+          key: "{{HOMEPAGE_VAR_KARAKEEP_KEY}}"
 
 - Network:
     - Pi-hole:
