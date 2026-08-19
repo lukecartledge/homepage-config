@@ -97,6 +97,20 @@
         href: https://login.tailscale.com
         description: VPN mesh network
         icon: tailscale.png
+        # Enabled 2026-08-19. Unlike every other widget here there is no url:
+        # the endpoint is absolute (api.tailscale.com), so this needs only the
+        # device id and a key. deviceid is the stable node ID of this box, read
+        # from `tailscale status --json` inside ix-tailscale-tailscale-1.
+        #
+        # EXPIRES 2026-11-17. Tailscale API access tokens are capped at
+        # 90 days and cannot be extended, so this tile will start returning 401
+        # then — the same way the Home Assistant tile died. Regenerate at
+        # login.tailscale.com -> Settings -> Keys (must be a tskey-api-* access
+        # token, not an auth key and not the node key).
+        widget:
+          type: tailscale
+          deviceid: n85VohjPqE11CNTRL
+          key: "{{HOMEPAGE_VAR_TAILSCALE_KEY}}"
 
 - Infrastructure:
     - TrueNAS:
