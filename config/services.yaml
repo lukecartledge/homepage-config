@@ -77,19 +77,22 @@
         description: DNS ad blocking
         icon: pi-hole.png
         ping: 192.168.1.20
-        # Widget STILL disabled — retested 2026-08-15 on Homepage 1.13.2.
-        # The version reasoning in the old note was stale (we are well past
-        # 1.4.x), but the cache bug itself is real and still present: Homepage's
-        # pihole proxy handler throws "Cache timeout must be a positive number"
-        # on every call, surfacing as {"error":"Unexpected error"}.
-        # Pi-hole itself is fine — v6.4.3, /api/stats/summary returns live data
-        # unauthenticated. This is a Homepage-side bug, so retest after a
-        # Homepage upgrade (v2.0.0 is out) and not before.
-        # widget:
-        #   type: pihole
-        #   url: http://192.168.1.20:20720
-        #   key: "{{HOMEPAGE_VAR_PIHOLE_KEY}}"
-        #   version: 6
+        # Enabled 2026-08-19 on Homepage v2.0.0 — deliberately keyless.
+        # Pi-hole has no API password set: POSTing an empty password to
+        # /api/auth returns "no password set", and /api/stats/summary answers
+        # unauthenticated. The old HOMEPAGE_VAR_PIHOLE_KEY was stale, so Pi-hole
+        # rejected it with "password incorrect" and returned validity: -1.
+        # Homepage passed that through as a negative memory-cache TTL, which
+        # throws "Cache timeout must be a positive number" — the error
+        # previously misattributed to a Homepage cache bug. v2.0.0 still does
+        # not guard the negative case (it clamps only the upper bound), but it
+        # does skip the login call entirely when no key is set, so omitting the
+        # key is the fix. Only add a key here if Pi-hole is given an API
+        # password.
+        widget:
+          type: pihole
+          url: http://192.168.1.20:20720
+          version: 6
 
     - Tailscale:
         href: https://login.tailscale.com
