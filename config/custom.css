@@ -38,7 +38,13 @@
 }
 
 .dark {
-  --bg-color: var(--ctp-base);
+  /* Homepage v2 (Tailwind v4) consumes this as rgb(var(--bg-color)), so it must
+     be a space-separated channel triple. A hex value makes the rgb() invalid,
+     the declaration is dropped. It also needs !important: custom.css is linked
+     BEFORE the Next.js bundle, so at equal specificity v2's own .dark rule wins
+     on document order. Every other rule in this file already carries
+     !important, which is why only the page background fell back to slate. */
+  --bg-color: 30 30 46 !important; /* --ctp-base #1e1e2e */
   --scrollbar-thumb: var(--ctp-accent);
   --scrollbar-track: var(--ctp-mantle);
 }
