@@ -20,6 +20,9 @@
           type: jellyfin
           url: http://192.168.1.20:8096
           key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+          # Jellyfin 12 dropped the /emby routes and ?api_key= auth; v2 uses
+          # the current routes. Needs a Homepage release newer than 2.5.0.
+          version: 2
           enableBlocks: true
           enableNowPlaying: true
 
