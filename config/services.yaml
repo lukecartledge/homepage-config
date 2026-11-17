@@ -72,7 +72,9 @@
 
 - Network:
     - Pi-hole:
-        href: http://the-library.tail227692.ts.net:20720/admin
+        # Tailscale IP, not the ts.net name: since FTL 6.8 Pi-hole returns 403
+        # for any Host header other than pi.hole or an IP (serve_all = false).
+        href: http://100.71.156.61:20720/admin/
         description: DNS ad blocking
         icon: pi-hole.png
         ping: 192.168.1.20
